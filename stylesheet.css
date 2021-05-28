@@ -1,0 +1,200 @@
+p {
+    font-size: 30px;
+}
+
+body {
+    background-color: #FFFFFF;
+    margin: 0px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+td {
+    border-spacing: 5px;
+}
+
+nav {
+    background-color: #EE7517;
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+}
+
+
+h2 {
+    color: darkred;
+    font-family: Copperplate;
+    Font-size: 60px;
+    Text-align: center;
+}
+
+
+main {
+    padding-left: 20px;
+    padding-right: 20px;
+    display: block;
+}
+
+
+footer {
+    font-size: .70em;
+    background-color: #EE7517;
+    font-style: italic;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.radioButtonList label{
+    display:inline;
+}
+
+
+.footertext {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    text-align: center;
+    font-size: 13px;
+}
+
+.mainpagetext {
+    font-size: 30px;
+    color: darkred;
+}
+
+.googlemap {
+    float: left;
+    padding-left: 50px;
+    padding-right: 200px;
+    max-width: 100%;
+    height: auto;
+}
+
+.insidepicture {
+    float: left;
+}
+
+.googleheader {
+    text-align: center;
+}
+
+
+#wrapper {
+    background-color: #FFE1C3;
+    box-shadow: 5px 5px 5px 5px
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%
+}
+
+
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+}
+
+#headerbackground {
+    background-color: #EE7517
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #EE7517;
+    Font-Size: 20px;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #111;
+}
+
+#building {
+    float: left;
+    Padding-right: 20px;
+}
+
+.main {
+    Float: left;
+}
+
+.column {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+.columnhome {
+    float: left;
+    width: 50%;
+}
+
+/* Clear floats after the columns */
+.rowhomeafter {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+table tr.separator {
+    height: 15px;
+}
+
+
+.myButton {
+    box-shadow: inset 0px 1px 0px 0px #f29c93;
+    background: linear-gradient(to bottom, #fe1a00 5%, #ce0100 100%);
+    background-color: #fe1a00;
+    border-radius: 6px;
+    border: 1px solid #d83526;
+    display: inline-block;
+    cursor: pointer;
+    color: #ffffff;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    padding: 6px 24px;
+    text-decoration: none;
+    text-shadow: 0px 1px 0px #b23e35;
+}
+
+.myButton:hover {
+    background: linear-gradient(to bottom, #ce0100 5%, #fe1a00 100%);
+    background-color: #ce0100;
+}
+
+.myButton:active {
+    position: relative;
+    top: 1px;
+}
+
+#box{
+    display: inline-block;
+    padding-right: 60px;
+}
+

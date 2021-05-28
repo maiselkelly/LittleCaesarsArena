@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<!--==================================================================
+//
+// Web site: <Little Caesar's Arena>
+// Web page: <Events Page>
+// Course:   CSC 5750
+// Homework: <1>
+// Author:   <Kelly Maisel>
+// Date:     <1/14/21>
+// Description:
+//   <This webpage will display information about Little Caesars Arena.
+It will show upcoming events and will allow clients to purchase tickets to the upcoming events.>
+//
+//=================================================================-->
+
+<!--Head Section-->
+<head>
+    <title>Little Caesars Arena :: Events, v5</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <meta charset="UTF-8">
+    <meta name="Kelly Maisel" content="LCA"/>
+    <meta name="description" content="Little Caesars Arena"/>
+    <meta name="keywords" content="HTML, template">
+
+
+    <!-- DataTables CSS and script links -->
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js">
+    </script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js">
+    </script>
+
+    <!-- Leaflet CSS and script links -->
+    <script src='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v1.12.0/mapbox-gl.css' rel='stylesheet'/>
+</head>
+
+
+<body onload="loadEvents()">
+
+<!--Header Section-->
+<header>
+    <div id="headerbackground">
+        <img src="images/arenalogo.png" alt="header" height="250px" width="500px" class="center">
+        <br>
+    </div>
+</header>
+
+<!--Navigation Section-->
+<nav>
+    <ul>
+        <li><a href="Homepage.html">Home</a></li>
+        <li><a href="Events.html">Current Events</a></li>
+        <li><a href="Tickets.html">Buy Tickets!</a></li>
+    </ul>
+</nav>
+
+
+<!--Main Section-->
+<main>
+    <h2>Little Caesars Arena Events Page</h2>
+
+
+    <!-- DataTables Information -->
+    <table id="tableCities" class="display">
+        <thead>
+        <tr>
+            <th>Opponent</th>
+            <th>Date</th>
+            <th>Price Range</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <tr>
+            <td>Row 1 Data 1</td>
+            <td>Row 1 Data 2</td>
+            <td>Row 1 Data 3</td>
+            <td>Row 1 Data 4</td>
+        </tr>
+
+        <tr>
+            <td>Row 2 Data 1</td>
+            <td>Row 2 Data 2</td>
+            <td>Row 2 Data 3</td>
+            <td>Row 2 Data 4</td>
+        </tr>
+
+        </tbody>
+
+    </table>
+
+    <!-- DataTables script -->
+    <script type="text/javascript">
+        "use strict";
+
+        //Retrieves data from JSON file
+        function loadEvents() {
+
+           
+            var arr;
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    arr = JSON.parse(this.responseText);
+
+                        $(document).ready(function () {
+                            $('#tableCities').DataTable(
+                                {
+                                    "data": arr,
+                                    "autoWidth": false
+                                });
+                        });
+                        console.log("Event array was successfully retrieved on event page.");
+
+                    }
+
+                }
+            xhttp.open("GET", "Events.json", true);
+            xhttp.send();
+
+        }
+
+            // data = JSON.parse(localStorage.getItem("data"));
+
+
+            // Data tables
+            //     $(document).ready(function () {
+            //         $('#tableCities').DataTable(
+            //             {
+            //                 "data": data,
+            //                 "autoWidth": false
+            //             });
+            //     });
+            //     console.log("Array was successfully retrieved.");
+            //
+            // }
+
+
+
+    </script>
+
+
+    <br><br>
+</main>
+
+<!--Footer Section-->
+<footer>
+
+    <div class="footertext"><b>Little Caesars Arena &nbsp; &nbsp; 2645 Woodward Ave, Detroit, MI, 48201 &nbsp;&nbsp;
+        (313) 471-3200 &nbsp; &nbsp;
+
+        <a href="mailto: LCA@gmail.com">LCA@gmail.com</a> &nbsp; &copy; Copyright LCA 2021</b></div>
+
+</footer>
+
+</body>
+</html>
+
+

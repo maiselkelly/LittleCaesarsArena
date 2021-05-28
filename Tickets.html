@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en-us" xmlns:display="http://www.w3.org/1999/xhtml">
+
+<!--==================================================================
+//
+// Web site: <Little Caesar's Arena>
+// Web page: <Ticket Page>
+// Course:   CSC 5750
+// Homework: <1>
+// Author:   <Kelly Maisel>
+// Date:     <1/14/21>
+// Description:
+//   <This webpage will display information about Little Caesars Arena. It will show upcoming events
+and will allow clients to purchase tickets to the upcoming events. The client will now be able to see
+how much their total cost would be for each seat selection. >
+//
+//=================================================================-->
+
+<!--Head Section-->
+<head>
+    <title>Little Caesars Arena :: Ticket Sales, v5</title>
+    <link rel="stylesheet" href="stylesheet.css">
+    <meta charset="UTF-8">
+    <meta name="Kelly Maisel" content="[LCA]"/>
+    <meta name="description" content="Little Caesars Arena"/>
+    <meta name="keywords" content="HTML, template">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        "use strict";
+
+        //Global Array
+        var seats;
+        var events;
+
+        //Retrieves Seats data from JSON file
+        function loadSeats() {
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    seats = JSON.parse(this.responseText);
+                    console.log("Seat array was successfully retrieved on ticket page.");
+                    loadEvents();
+
+                }
+            }
+
+            xhttp.open("GET", "seats.json", true);
+            xhttp.send();
+
+        }
+
+        //Retrieves events data from JSON file
+        function loadEvents() {
+
+            var xhttp = new XMLHttpRequest();
+
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+
+                    events = JSON.parse(this.responseText);
+                    console.log("Event array was successfully retrieved on ticket page.");
+                    setSeats();
+
+                }
+            }
+
+            xhttp.open("GET", "Events.json", true);
+            xhttp.send();
+
+        }
+
+
+        //Function to set the seats into a radio button
+        function setSeats(){
+
+
+            var radioDiv = document.getElementById("radioDiv");
+
+            for(var i =0; i < seats.length; i++){
+                var radio = document.createElement("input");
+                var label = document.createElement("label");
+                radio.setAttribute("type", "radio");
+                radio.setAttribute("name", "Seating");
+                radio.setAttribute("value", seats[i][0]);
+                if(i == 0){
+                radio.setAttribute("checked", true)};
+                radio.setAttribute("onChange", "seatTypeSelected()");
+                label.setAttribute("for", seats[i][0]);
+
+                var radioList = document.createTextNode(seats[i][0]);
+                radioDiv.appendChild(radioList);
+                radioDiv.appendChild(radio);
+                radioDiv.appendChild(label);
+
+            }
+            console.log("Seats have been set");
+            setEvents();
+        }
+
+
+        //Function to set events into a combo box
+        function setEvents() {
+
+            var comboBoxDiv = document.getElementById("comboBoxDiv");
+
+            //Create and append select list
+            var selectList = document.createElement("select");
+            selectList.setAttribute("id", "cmbSelect");
+            selectList.setAttribute("name", "cmbSelect");
+            comboBoxDiv.appendChild(selectList);
+
+            console.log(events);
+
+            // Create and append the options table
+            for (var i = 0; i < events.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value", events[i][0]);
+                var label = document.createTextNode(events[i][0]);
+                option.appendChild(label);
+                selectList.appendChild(option);
+            }
+            seatTypeSelected();
+
+        }
+
+
+        //Function to find total for each seat selection
+        function seatTypeSelected() {
+
+            // // Declare variables
+
+            //Loop through array
+            var selection = document.getElementsByName('Seating');
+            var selectionVal;
+            for(var i = 0; i < selection.length; i++){
+                if(selection[i].checked){
+                   selectionVal = selection[i].value;
+                }
+            }
+
+            console.log("Selection1 " + selectionVal);
+
+            var seatCost;
+            for (var i = 0; i < seats.length; i++){
+                if(selectionVal == seats[i][0])
+                    seatCost = seats[i][1];
+            }
+
+
+            // Declare variables
+            console.log(seats);
+            var subtotal = txtTickets.value * seatCost;
+            var tax = subtotal * 0.06;
+            var total = subtotal + tax;
+
+            // Set text boxes
+            txtSeatCost.value = seatCost.toFixed(2);
+            txtSubtotal.value = subtotal.toFixed(2);
+            txtTax.value = tax.toFixed(2);
+            txtTotal.value = total.toFixed(2);
+
+            console.log("Radio option " + selection +" selected.");
+
+        }
+
+        //Function to Update Ticket Sales
+        function updateTicketSales(){
+            //jQuery to request = add
+
+            var txtName = document.getElementById("txtName");
+            var cmbSelect = document.getElementById("cmbSelect");
+            var txtDate = document.getElementById("txtDate");
+            var txtTickets = document.getElementById("txtTickets");
+            var txtTotal = document.getElementById("txtTotal");
+
+
+            var name = txtName.value;
+            var event = cmbSelect.options[cmbSelect.selectedIndex].value;
+            var eventDate = txtDate.value;
+            var tickets = txtTickets.value;
+            var total = txtTotal.value;
+
+
+                var queryString = "request=add&txtName=" + name + "&cmbSelect=" +
+                    event + "&txtDate=" +  eventDate + "&txtTickets="+ tickets + "&txtTotal=" + total;
+                $.get(
+                    "DatabaseInterface.php",
+                    queryString,
+                    updateDataResponse);
+        }
+
+        function updateDataResponse()
+        {
+            console.log("New Person Inserted.")
+        }
+
+    </script>
+</head>
+
+<body onload="loadSeats()">
+
+<!--Header Section-->
+<header>
+    <div id="headerbackground">
+        <img src="images/arenalogo.png" alt="header" height="250px" width="500px" class="center">
+        <br>
+    </div>
+</header>
+
+<!--Navigation Section-->
+<nav>
+    <ul>
+        <li><a href="Homepage.html">Home</a></li>
+        <li><a href="Events.html">Current Events</a></li>
+        <li><a href="Tickets.html">Buy Tickets!</a></li>
+    </ul>
+</nav>
+
+
+
+<!--Main Section-->
+<main>
+    <h2>Little Caesars Arena Ticket Sales</h2>
+
+    <!--Ticket information form -->
+    <p><b>Submit Ticket Information</b></p>
+    <div class="row">
+        <div class="column">
+            <form method="POST" onsubmit="updateTicketSales()"  enctype="application/x-www-form-urlencoded" action="ConfirmationPage.php">
+
+                <label style="width:200px; display:inline-block"><b>Full Name:</b> </label>
+                <input type="text" id="txtName" name="txtName" required>
+                <br><br>
+                <label style="width:200px; display:inline-block"> <b>Email Address:</b> </label>
+                <input type="email" name="txtEmail" required>
+                <br><br>
+                <div id="box"><div id="comboBoxDiv" ><b>Opponent and Date:</b>
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; </div> </div>
+
+                <br><br>
+                <label style="width:200px; display:inline-block"><b>Date:</b></label>
+                <input type="date" id="txtDate" name="txtDate" value="2021-01-15" required>
+                <br><br>
+                <label> <b>Seating Selection: </b>  </label>
+                <div id="radioDiv">
+                <br></div>
+<!--                <label style="width:200px; display:inline-block"> <b>Seat Selection:</b></label>-->
+<!--                <select id="cmbSeatType" name="cmbSeatType" onchange="seatTypeSelected()" required>-->
+<!--                    <option id="Lower Bowl" value="Lower Bowl">Lower Bowl</option>-->
+<!--                    <option id="Mezzanine" value="Mezzanine">Mezzanine</option>-->
+<!--                    <option id="Upper Bowl" value="Upper Bowl">Upper Bowl</option>-->
+<!--                    <option id="Box Seating" value="Box Seating">Box Seating</option>-->
+<!--                </select>-->
+<!--                <input type="radio" id="Lower Bowl" name="seating" value="Lower Bowl" >-->
+<!--                <label for="Lower Bowl" style="display:inline-block">Lower Bowl</label><br><br>-->
+<!--                <input type="radio" id="Upper Bowl" name="seating" value="Upper Bowl" >-->
+<!--                <label for="Upper Bowl" style="display:inline-block">Upper Bowl</label><br>-->
+<!--                <input type="radio" id="Mezzanine" name="seating" value="Mezzanine" >-->
+<!--                <label for="Mezzanine" style="display:inline-block">Mezzanine</label><br>-->
+<!--                <input type="radio" id="Box Seating" name="seating" value="Box Seating">-->
+<!--                <label for="Box Seating" style="display:inline-block">Box Seating</label><br>-->
+                <br><br>
+                <label style="width:200px; display:inline-block"><b>Number of Tickets:</b></label>
+                <input style="width:50px" type="number" id="txtTickets" name="txtTickets" value="numberOfTickets"
+                       min="1" step="1" max="21" value="1" onchange="seatTypeSelected()">
+                <br><br>
+
+                <label style="width:200px; display:inline-block" >  <b>Seat cost ($): </b></label>
+                <input type="text" id="txtSeatCost" name="txtSeatCost" style="background-color:#DCD7D2" readonly><br><br>
+
+                <label style="width:200px; display:inline-block" > <b>Subtotal ($): </b></label>
+                <input type="text" id="txtSubtotal" name="txtSubtotal" style="background-color:#DCD7D2" readonly><br><br>
+
+                <label style="width:200px; display:inline-block" >  <b>Tax ($): </b></label>
+                <input type="text" id="txtTax" name="txtTax" style="background-color:#DCD7D2" readonly><br><br>
+
+                <label style="width:200px; display:inline-block">   <b>Total ($): </b></label>
+                <input type="text" id="txtTotal" name="txtTotal" style="background-color:#DCD7D2"  readonly><br><br>
+
+                <label style="width:200px; display:inline-block"><b>Payment Type: </b></label>
+                <select name="cardType" required>
+                    <option value="Visa">Visa</option>
+                    <option value="Master Card">Master Card</option>
+                    <option value="American Express">American Express</option>
+                    <option value="Discover">Discover</option>
+                </select>
+
+                <br><br><br>
+                <input class="myButton" type="submit" value="Get Your Tickets!"> &nbsp; &nbsp;
+                <input type="reset" class="myButton" value="Reset Your Order">
+            </form>
+            <br><br></div>
+        <div class="column"><img src="images/seatingchart.jpg" alt="header" height="400px" width="600px"></div>
+        <br><br>
+    </div>
+    <br><br>
+</main>
+
+<!--Footer Section-->
+<footer>
+
+    <div class="footertext"><b>Little Caesars Arena &nbsp; &nbsp; 2645 Woodward Ave, Detroit, MI, 48201 &nbsp;&nbsp;
+        (313) 471-3200 &nbsp; &nbsp;
+
+        <a href="mailto: LCA@gmail.com">LCA@gmail.com</a> &nbsp; &copy; Copyright LCA 2021</b></div>
+
+</footer>
+
+</body>
+</html>
